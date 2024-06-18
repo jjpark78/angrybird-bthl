@@ -1,10 +1,12 @@
-I developed a simple 2d web-based game like Angry Birds using Javascript, Cocos2d, HTML5 and Box2d about ten years ago for a Cocos2d game-making tutorial for my students.
-
-To play the game, click on the About section link or download the project and open the index.html file in your browser.
-Have fun 🤗
-
-
-![alt text](https://github.com/Mahdi7s/angrybirdsx/raw/master/screens/1.png)
-![alt text](https://github.com/Mahdi7s/angrybirdsx/raw/master/screens/2.png)
-![alt text](https://github.com/Mahdi7s/angrybirdsx/raw/master/screens/3.png)
-![alt text](https://github.com/Mahdi7s/angrybirdsx/raw/master/screens/4.png)
+# Our New Goals
+## 새로운 시나리오 적용
+* 적을 물리 엔진을 사용해서 무너트려 땅에 떨어지도록 하는 로직에서
+* 목표를 맞추어서 떨어뜨리는 것으로 변경해야 함.
+## 기능구현 로드맵
+* 물리엔진 사용법 파악
+* 고정되어 있으면서 건들이면 떨어지거나 터지도록 물리엔진 설정값 활용
+* 새로 만들어진 이미지 사용하기
+## 추가 구현 가능한 기능들
+* 위에 여러 특성들이 있고 그걸 떠 받치고 있는 구조물이 있으며, 구조물을 무너트려서 밑에 위의 특성들이 밑에 있는 적들을 처치하게 하는 방식?
+  
+  
