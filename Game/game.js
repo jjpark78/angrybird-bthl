@@ -454,7 +454,6 @@ var GameLayer2 = cc.Layer.extend({
         });
         this.addChild(refreshMenu);
         this.menus.push(refreshMenu);
-
         // --------- My Score ! ---------
 
         var scoreLabel = cc.LabelTTF.create("0", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
