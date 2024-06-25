@@ -37,10 +37,10 @@ var CMenu = cc.Sprite.extend({
 var GameLayer = cc.Layer.extend({
     birdSprite: null,
     isDraggingSling: false,
-    birdStartPos: cc.p(260, 440.5),
+    birdStartPos: cc.p(260, 140.5),
     slingRadius: {
         min: 20,
-        max: 80
+        max: 120
     },
     slingAngle: {
         min: cc.DEGREES_TO_RADIANS(250),
@@ -90,23 +90,46 @@ var GameLayer = cc.Layer.extend({
 
         var bgSprite = this.addObject({
             name: "bg",
-            scaleY: 0.8,
+            scale: 1.6,
             anchor: cc.p(0, 0),
             z: -1
         });
 
-        var groundSprite = this.addObject({
+        var groundY0Sprite = this.addObject({
             name: "ground",
-            scaleX: 2.5,
+            scaleX: 3.5,
+            scaleY: 0.7,
             anchor: cc.p(0, 0),
             type: "static",
             shape: "box",
             density: 0
         });
-        var platformSprite = this.addObject({
-            name: "platform",
-            y: 30,
-            scale: 1.5,
+        var groundY0Sprite = this.addObject({
+            name: "ground",
+            scaleX: 3.5,
+            scaleY: 0.001,
+            y:1080,
+            anchor: cc.p(0, 0),
+            type: "static",
+            shape: "box",
+            density: 0
+        });
+
+        var stageX0Sprite = this.addObject({
+            name: "ground",
+            scaleX: 0.0001,
+            scaleY: 300,
+            x: 0,
+            anchor: cc.p(0, 0),
+            type: "static",
+            shape: "box",
+            density: 0
+        });
+        var stageX1Sprite = this.addObject({
+            name: "ground",
+            scaleX: 0.0001,
+            scaleY: 300,
+            x: 1920,
             anchor: cc.p(0, 0),
             type: "static",
             shape: "box",
@@ -116,128 +139,83 @@ var GameLayer = cc.Layer.extend({
         var sling1Sprite = this.addObject({
             name: "sling1",
             x: 284.5,
-            y: 319.5,
+            y: 19.5,
             scale: 0.7,
             anchor: cc.p(1, 0)
         });
         var sling2Sprite = this.addObject({
             name: "sling2",
             x: 268.5,
-            y: 376.5,
+            y: 76.5,
             scale: 0.7,
             anchor: cc.p(1, 0),
             z: 3
         });
+        
+        var tempEnemyObj = {
+                name: "enemy",
+                type: "dynamic",
+                shape: "circle",
+                density: 2,
+            },
+            tempBoxObj = {
+                name: "platform",
+                scaleX: 0.001,
+                scaleY: 0.001,
+                anchor: cc.p(0, 0),
+                type: "static",
+                shape: "box",
+                density: 0
+            };
 
-        var cube1Sprite = this.addObject({
-            name: "wood1",
-            x: 840.5,
-            y: 71,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var cube2Sprite = this.addObject({
-            name: "wood1",
-            x: 1017.5,
-            y: 71,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var hWood1Sprite = this.addObject({
-            name: "wood2",
-            x: 931.5,
-            y: 131.5,
-            scaleX: 1.3,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var hWood2Sprite = this.addObject({
-            name: "wood2",
-            x: 931.5,
-            y: 251.5,
-            scaleX: 1.3,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var hWood3Sprite = this.addObject({
-            name: "wood2",
-            x: 880,
-            y: 330,
-            rotation: -40,
-            scaleX: 0.8,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var hWood4Sprite = this.addObject({
-            name: "wood2",
-            x: 980,
-            y: 330,
-            rotation: 40,
-            scaleX: 0.8,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var cube3Sprite = this.addObject({
-            name: "wood1",
-            x: 840.5,
-            y: 200.5,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var cube4Sprite = this.addObject({
-            name: "wood1",
-            x: 1017.5,
-            y: 200.5,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-        var cube5Sprite = this.addObject({
-            name: "wood1",
-            x: 930,
-            y: 300,
-            type: "dynamic",
-            shape: "box",
-            userData: new BodyUserData(GameObjectRoll.Wood, 2000)
-        });
-
-        var enemySprite = this.addObject({
-            name: "enemy",
-            x: 931.5,
-            y: 71,
-            type: "dynamic",
-            shape: "circle",
-            density: 2,
-            userData: new BodyUserData(GameObjectRoll.Enemy, 400)
-        });
-        var enemy2Sprite = this.addObject({
-            name: "enemy",
-            x: 931.5,
-            y: 180,
-            type: "dynamic",
-            shape: "circle",
-            density: 2,
-            userData: new BodyUserData(GameObjectRoll.Enemy, 400)
-        });
+        // enemy1
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy2
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy3
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy4
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy5
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy6
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy7
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy8
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        // enemy9
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
+        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
         this.birdSprite = this.addObject({
             name: "bird",
-            x: 200,
-            y: 345,
+            x: 260, 
+            y: 140.5,
             z: 1
         });
 
         this.slingRubber1 = this.addObject({
             name: "sling3",
             x: 278,
-            y: 436,
+            y: 136,
             scaleY: 0.7,
             scaleX: 0,
             anchor: cc.p(1, 0.5),
@@ -246,7 +224,7 @@ var GameLayer = cc.Layer.extend({
         this.slingRubber2 = this.addObject({
             name: "sling3",
             x: 250,
-            y: 440,
+            y: 140,
             scaleY: 0.7,
             scaleX: 0,
             anchor: cc.p(1, 0.5),
@@ -258,15 +236,9 @@ var GameLayer = cc.Layer.extend({
 
         var margin = 25,
             backMenu = new CMenu(this.getTexture("menu_back"));
-        backMenu.setPosition(cc.p(margin, winSize.height - margin));
-        backMenu.onClick(function () {
-            window.location.href = "http://www.mahdi7s.com";
-        });
-        this.addChild(backMenu);
-        this.menus.push(backMenu);
 
         var refreshMenu = new CMenu(this.getTexture("menu_refresh"));
-        refreshMenu.setPosition(cc.p(70, winSize.height - margin));
+        refreshMenu.setPosition(cc.p(25, winSize.height - margin));
         refreshMenu.onClick(function () {
             self.init();
         });
@@ -286,10 +258,6 @@ var GameLayer = cc.Layer.extend({
         });
         this.addChild(scoreLabel, 5);
 
-        // --------- Setup Sling's Bomb ! ---------
-
-        var action = cc.Spawn.create(cc.RotateBy.create(1.5, 360), cc.JumpTo.create(1.5, this.birdStartPos, 100, 1));
-        this.birdSprite.runAction(action);
 
         this.scheduleUpdate();
     },
@@ -391,9 +359,9 @@ var GameLayer = cc.Layer.extend({
                 type: "dynamic",
                 shape: "circle",
                 sprite: this.birdSprite,
-                density: 15,
-                restitution: 0.4,
-                userData: new BodyUserData(GameObjectRoll.Bird, 250)
+                density: 30,
+                restitution: 0.2,
+                userData: new BodyUserData(GameObjectRoll.Bird, 2500)
             });
 
             var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
