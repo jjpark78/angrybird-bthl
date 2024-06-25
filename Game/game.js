@@ -239,7 +239,7 @@ var GameLayer = cc.Layer.extend({
         var refreshMenu = new CMenu(this.getTexture("menu_refresh"));
         refreshMenu.setPosition(cc.p(25, winSize.height - margin));
         refreshMenu.onClick(function () {
-            cc.director.runScene(new cc.TransitionFade(3.0, new GameScene()));
+            self.init();
         });
         this.addChild(refreshMenu);
         this.menus.push(refreshMenu);
@@ -449,7 +449,8 @@ var GameLayer2 = cc.Layer.extend({
         var refreshMenu = new CMenu(this.getTexture("menu_refresh"));
         refreshMenu.setPosition(cc.p(winSize.width/2, winSize.height/2));
         refreshMenu.onClick(function () {
-            window.location.href = "index.html";
+            var transition = cc.TransitionFade.create(0.5,new GameScene());
+            director.replaceScene(transition);
         });
         this.addChild(refreshMenu);
         this.menus.push(refreshMenu);

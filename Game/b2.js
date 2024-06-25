@@ -233,7 +233,8 @@ var b2 = (function () {
                     world.DestroyBody(body);
 
                     if (bodyData.getObjectRoll() == GameObjectRoll.Bird && userScore == 0) {
-                        window.location.href = "retry.html";
+                        var transition = cc.TransitionFade.create(0.5,new GameScene2());
+                        cc.Director.getInstance().replaceScene(transition);
                     }
 
                     console.log(userScore);
