@@ -6,9 +6,10 @@ var MathH = {
     }
 };
 
-var BodyUserData = function (objectRoll, fullHealth) {
+var BodyUserData = function (objectRoll, fullHealth, score) {
     var self = this,
-        currentHealth = fullHealth;
+        currentHealth = fullHealth,
+        score = score;
 
     this.isDead = false;
     this.isContacted = false;
@@ -20,6 +21,9 @@ var BodyUserData = function (objectRoll, fullHealth) {
     };
     this.getHealth = function () {
         return self.currentHealth;
+    };
+    this.getScore = function () {
+        return score;
     };
     this.damage = function (impulse) {
         this.isDead = ((currentHealth -= impulse) <= 0);
@@ -140,7 +144,7 @@ var b2 = (function () {
             if (!bodyData || (bodyData.getHealth() == bodyData.getFullHealth() && imp0 < 12)) return;
 
             var objRoll = bodyData.getObjectRoll();
-            if (objRoll === GameObjectRoll.Enemy /* || objRoll === GameObjectRoll.Wood */ ) {
+            if (objRoll === GameObjectRoll.Enemy || objRoll === GameObjectRoll.Bird /* || objRoll === GameObjectRoll.Wood */ ) {
                 bodyData.damage(imp0);
             }
         };
@@ -213,7 +217,7 @@ var b2 = (function () {
             bodies.push(body);
         },
         simulate: function () {
-            world.Step(1 / 60, // fixed time step
+            world.Step(1 / 45, // fixed time step
             10, // velocity iterations
             10); // position iterations
 
@@ -228,8 +232,14 @@ var b2 = (function () {
                 if (bodyData && bodyData.isDead) {
                     world.DestroyBody(body);
 
-                    userScore = (++deadsCount) * 1000;
-                    body.sprite.runAction(cc.FadeOut.create(0.5));
+                    if (bodyData.getObjectRoll() == GameObjectRoll.Bird && userScore == 0) {
+                        window.location.href = "retry.html";
+                    }
+
+                    console.log(userScore);
+
+                    userScore += ((bodyData.getObjectRoll() == GameObjectRoll.Enemy)) ? bodyData.getScore() * 1 : 0;
+                    body.sprite.runAction(cc.FadeOut.create(0.3));
                     body.SetUserData(null);
 
                     continue;
