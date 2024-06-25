@@ -37,7 +37,7 @@ var CMenu = cc.Sprite.extend({
 var GameLayer = cc.Layer.extend({
     birdSprite: null,
     isDraggingSling: false,
-    birdStartPos: cc.p(260, 140.5),
+    birdStartPos: cc.p(360, 140.5),
     slingRadius: {
         min: 20,
         max: 120
@@ -138,19 +138,38 @@ var GameLayer = cc.Layer.extend({
 
         var sling1Sprite = this.addObject({
             name: "sling1",
-            x: 284.5,
+            x: 384.5,
             y: 19.5,
             scale: 0.7,
             anchor: cc.p(1, 0)
         });
         var sling2Sprite = this.addObject({
             name: "sling2",
-            x: 268.5,
+            x: 368.5,
             y: 76.5,
             scale: 0.7,
             anchor: cc.p(1, 0),
             z: 3
         });
+        this.slingRubber1 = this.addObject({
+            name: "sling3",
+            x: 378,
+            y: 136,
+            scaleY: 0.7,
+            scaleX: 0,
+            anchor: cc.p(1, 0.5),
+            z: 0
+        });
+        this.slingRubber2 = this.addObject({
+            name: "sling3",
+            x: 350,
+            y: 140,
+            scaleY: 0.7,
+            scaleX: 0,
+            anchor: cc.p(1, 0.5),
+            z: 2
+        });
+        this.slingRubber3 = null;
         
         var tempEnemyObj = {
                 name: "enemy",
@@ -170,67 +189,47 @@ var GameLayer = cc.Layer.extend({
 
         // enemy1
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 931.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy2
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 851, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy3
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1531.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy4
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1031.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy5
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 671, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy6
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy7
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1081.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy8
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy9
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, 40),
-        tempEnemyObj.x = tempBoxObj.x = 1631.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1381.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
         this.birdSprite = this.addObject({
             name: "bird",
-            x: 260, 
+            x: 360, 
             y: 140.5,
             z: 1
         });
-
-        this.slingRubber1 = this.addObject({
-            name: "sling3",
-            x: 278,
-            y: 136,
-            scaleY: 0.7,
-            scaleX: 0,
-            anchor: cc.p(1, 0.5),
-            z: 0
-        });
-        this.slingRubber2 = this.addObject({
-            name: "sling3",
-            x: 250,
-            y: 140,
-            scaleY: 0.7,
-            scaleX: 0,
-            anchor: cc.p(1, 0.5),
-            z: 2
-        });
-        this.slingRubber3 = null;
 
         // --------- Top Menu ! ---------
 
@@ -247,7 +246,7 @@ var GameLayer = cc.Layer.extend({
 
         // --------- My Score ! ---------
 
-        var scoreLabel = cc.LabelTTF.create("0", "fantasy", 20, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
+        var scoreLabel = cc.LabelTTF.create("0", "fantasy", 100, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
         scoreLabel.setPosition(cc.p(winSize.width - 80, winSize.height));
         scoreLabel.schedule(function () {
             var showingScore = parseInt(scoreLabel.getString());
