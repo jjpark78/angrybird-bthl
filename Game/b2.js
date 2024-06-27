@@ -232,9 +232,12 @@ var b2 = (function () {
                 if (bodyData && bodyData.isDead) {
                     world.DestroyBody(body);
 
-                    if (bodyData.getObjectRoll() == GameObjectRoll.Bird && userScore == 0) {
-                        var transition = cc.TransitionFade.create(0.5,new GameScene2());
-                        cc.Director.getInstance().replaceScene(transition);
+                    if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
+                        if (userScore == 0) {
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new GameScene2()));
+                        } else {
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new StartScene()));
+                        }
                     }
 
                     console.log(userScore);
