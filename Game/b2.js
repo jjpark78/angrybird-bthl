@@ -26,6 +26,8 @@ var BodyUserData = function (objectRoll, fullHealth, score) {
         return score;
     };
     this.damage = function (impulse) {
+		cc.AudioEngine.getInstance().playEffect(impact_sound, false);
+
         this.isDead = ((currentHealth -= impulse) <= 0);
     };
 }
@@ -222,6 +224,7 @@ var b2 = (function () {
             10); // position iterations
 
             enableDebugDraw && world.DrawDebugData();
+			var ag = cc.AudioEngine.getInstance();
 
             for (var i = 0; i < bodies.length; i++) {
                 var body = bodies[i],
@@ -240,9 +243,11 @@ var b2 = (function () {
                         }
                     }
 
-                    console.log(userScore);
-
-                    userScore += ((bodyData.getObjectRoll() == GameObjectRoll.Enemy)) ? bodyData.getScore() * 1 : 0;
+					if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
+						ag.playEffect(effect_sound, false);
+						userScore += bodyData.getScore() * 1;
+                        result_arr.insert(userScore);
+					}
                     body.sprite.runAction(cc.FadeOut.create(0.3));
                     body.SetUserData(null);
 

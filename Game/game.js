@@ -21,7 +21,7 @@ var CMenu = cc.Sprite.extend({
 
         this.boundingBox || (this.boundingBox = this.getBoundingBox());
 
-        if (cc.Rect.CCRectContainsPoint(this.boundingBox, point)) {
+        if (cc.rectContainsPoint(this.boundingBox, point)) {
             if (!this.hovered) {
                 this.hovered = true;
                 this.runAction(cc.ScaleTo.create(0.01, 1));
@@ -457,70 +457,93 @@ var GameScene2 = cc.Scene.extend({
     }
 });
 
-
-var GameLayer_Start = cc.Layer.extend({
-    menus: [],
-    getTexture: function (name) {
-        return cc.TextureCache.getInstance()
-            .addImage('sprites/' + name + '.png');
-    },
-    init: function () {
-        this._super();
-        this.removeAllChildrenWithCleanup(true);
-        this.setTouchEnabled(true);
-
-        var director = cc.Director.getInstance(),
-            self = this,
-            winSize = director.getWinSize();
-
-        b2.initWorld();
-
-        var scoreLabel = cc.LabelTTF.create("Game Start", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-        scoreLabel.setPosition(cc.p(winSize.width/2+ 120, winSize.height/2 + 100));
-        scoreLabel.setColor(cc.c3b(0, 0, 0));
-        this.addChild(scoreLabel, 5);
-
-        var refreshMenu = new CMenu(this.getTexture("bg"));
-        refreshMenu.setPosition(cc.p(winSize.width/2, winSize.height/2));
-        refreshMenu.onClick(function () {
-            var transition = cc.TransitionFade.create(0.5,new GameScene());
-            director.replaceScene(transition);
-        });
-        this.addChild(refreshMenu);
-        this.menus.push(refreshMenu);
-
-        this.scheduleUpdate();
-    },
-    update: function (dt) {
-    },
-    onTouchesBegan: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouches(touch, evt);
-        });
-    },
-    onTouchesMoved: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesMoved(touch, evt);
-        });
-    },
-    onTouchesEnded: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesEnded(touch, evt);
-        });
-    },
-    onKeyUp: function (e) {},
-    onKeyDown: function (e) {}
-});
-
 //--------------------- Scene ---------------------
 
 var StartScene = cc.Scene.extend({
-    onEnter: function () {
+    ctor:function (bPortrait) {
         this._super();
+        this.init();
+    },
 
-        var layer = new GameLayer_Start();
-        layer.init();
+    // callbacks
+    onEnter:function () {
+        this._super();
+        var director = cc.Director.getInstance(),
+            winSize = director.getWinSize();
 
-        this.addChild(layer);
-    }
+        var label = cc.LabelTTF.create("Game Start", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
+		label.setColor(cc.c3b(0, 0, 0));
+        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
+        var menu = cc.Menu.create(menuItem);
+        menu.setPosition(0,0);
+        menuItem.setPosition(winSize.width/2+ 120, winSize.height/2 + 100);
+
+        var menuItem = cc.MenuItemImage.create("sprites/bg.png","sprites/bg.png", this.onMainMenuCallback, this);
+		var imageMenu = cc.Menu.create(menuItem);
+        menuItem.setPosition(0,0);
+
+        this.addChild(imageMenu, 1);
+        this.addChild(menu, 2);
+    },
+    onMainMenuCallback:function () {
+        var director = cc.Director.getInstance(),
+            winSize = director.getWinSize();
+        var scene = cc.Scene.create();
+        var layer = new GameScene();
+        scene.addChild(layer);
+
+		var ag = cc.AudioEngine.getInstance();
+		//ag.playMusic(bgm_sound, true);
+		ag.setMusicVolume(0.2);
+
+        var transition = cc.TransitionProgressRadialCCW.create(0.5,scene);
+        director.replaceScene(transition);
+    },
+});
+
+
+var ResultScene = cc.Scene.extend({
+    ctor:function (bPortrait) {
+        this._super();
+        this.init();
+    },
+
+    // callbacks
+    onEnter:function () {
+        this._super();
+        var director = cc.Director.getInstance(),
+            winSize = director.getWinSize();
+
+        var label = cc.LabelTTF.create("Result", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
+        label.setColor(cc.c3b(0, 0, 0));
+        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
+        var menu = cc.Menu.create(menuItem);
+        menu.setPosition(0,0);
+        menuItem.setPosition(winSize.width, winSize.height/2 + 200);
+
+        var result_string = result_arr.join('/');
+        var label = cc.LabelTTF.create(result_string, "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
+		label.setColor(cc.c3b(0, 0, 0));
+        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
+        var menu2 = cc.Menu.create(menuItem);
+        menu2.setPosition(0,0);
+        menuItem.setPosition(winSize.width, winSize.height/2);
+
+        this.addChild(menu2, 1);
+        this.addChild(menu, 2);
+    },
+    onMainMenuCallback:function () {
+        var director = cc.Director.getInstance(),
+            winSize = director.getWinSize();
+        var scene = cc.Scene.create();
+        var layer = new GameScene();
+        scene.addChild(layer);
+
+		var ag = cc.AudioEngine.getInstance();
+		//ag.playMusic(bgm_sound, true);
+		ag.setMusicVolume(0.2);
+
+        var transition = cc.TransitionProgressRadialCCW.create(0.5,scene);
+        director.replaceScene(transition);
+    },
 });
