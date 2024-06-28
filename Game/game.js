@@ -1,25 +1,25 @@
 // Author: www.mahdi7s.com
 
 var CMenu = cc.Sprite.extend({
-  defaultScale: 0.8,
-  hovered: false,
-  boundingBox: null,
-  onClickCallback: null,
-  ctor: function (tex) {
-    this._super();
-    this.initWithTexture(tex);
-    this.setScale(this.defaultScale);
-  },
-  onClick: function (callback) {
-    this.onClickCallback = callback;
-  },
-  handleTouches: function (touch, evt) {
-    this.hovered && this.onClickCallback && this.onClickCallback();
-  },
-  handleTouchesMoved: function (touch, evt) {
-    var point = touch[0].getLocation();
+    defaultScale: 0.8,
+    hovered: false,
+    boundingBox: null,
+    onClickCallback: null,
+    ctor: function (tex) {
+        this._super();
+        this.initWithTexture(tex);
+        this.setScale(this.defaultScale);
+    },
+    onClick: function (callback) {
+        this.onClickCallback = callback;
+    },
+    handleTouches: function (touch, evt) {
+        (this.hovered && this.onClickCallback) && this.onClickCallback();
+    },
+    handleTouchesMoved: function (touch, evt) {
+        var point = touch[0].getLocation();
 
-    this.boundingBox || (this.boundingBox = this.getBoundingBox());
+        this.boundingBox || (this.boundingBox = this.getBoundingBox());
 
         if (cc.rectContainsPoint(this.boundingBox, point)) {
             if (!this.hovered) {
@@ -59,42 +59,41 @@ var GameLayer = cc.Layer.extend({
     addObject: function (desc) {
         var sprite = cc.Sprite.createWithTexture(this.getTexture(desc.name));
 
-    sprite.setAnchorPoint(desc.anchor || cc.p(0.5, 0.5));
-    sprite.setScaleX(desc.scaleX || desc.scale || 1);
-    sprite.setScaleY(desc.scaleY || desc.scale || 1);
-    sprite.setRotation(desc.rotation || 0);
-    sprite.setPosition(cc.p(desc.x || 0, desc.y || 0));
+        sprite.setAnchorPoint(desc.anchor || cc.p(0.5, 0.5));
+        sprite.setScaleX(desc.scaleX || desc.scale || 1);
+        sprite.setScaleY(desc.scaleY || desc.scale || 1);
+        sprite.setRotation(desc.rotation || 0);
+        sprite.setPosition(cc.p(desc.x || 0, desc.y || 0));
 
-    desc.shape &&
-      b2.enablePhysicsFor({
-        type: desc.type,
-        shape: desc.shape,
-        sprite: sprite,
-        radius: desc.radius,
-        density: desc.density,
-        userData: desc.userData,
-      });
+        desc.shape && b2.enablePhysicsFor({
+            type: desc.type,
+            shape: desc.shape,
+            sprite: sprite,
+            radius: desc.radius,
+            density: desc.density,
+            userData: desc.userData
+        });
 
-    this.addChild(sprite, desc.z || 0);
-    return sprite;
-  },
-  init: function () {
-    this._super();
-    this.removeAllChildrenWithCleanup(true);
-    this.setTouchEnabled(true);
+        this.addChild(sprite, desc.z || 0);
+        return sprite;
+    },
+    init: function () {
+        this._super();
+        this.removeAllChildrenWithCleanup(true);
+        this.setTouchEnabled(true);
 
-    var director = cc.Director.getInstance(),
-      self = this,
-      winSize = director.getWinSize();
+        var director = cc.Director.getInstance(),
+            self = this,
+            winSize = director.getWinSize();
 
-    b2.initWorld();
+        b2.initWorld();
 
-    var bgSprite = this.addObject({
-      name: "bg",
-      scale: 1.6,
-      anchor: cc.p(0, 0),
-      z: -1,
-    });
+        var bgSprite = this.addObject({
+            name: "bg",
+            scale: 1.6,
+            anchor: cc.p(0, 0),
+            z: -1
+        });
 
         var groundY0Sprite = this.addObject({
             name: "ground",
@@ -196,39 +195,39 @@ var GameLayer = cc.Layer.extend({
         });
     
         // enemy1
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,100),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth, 100, '1번'),
         tempEnemyObj.x = tempBoxObj.x = 981.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy2
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,200),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,200, '2번'),
         tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 851, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy3
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,300),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,300, '3번'),
         tempEnemyObj.x = tempBoxObj.x = 1531.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy4
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,400),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,400, '4번'),
         tempEnemyObj.x = tempBoxObj.x = 1031.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy5
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,500),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,500, '5번'),
         tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 671, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy6
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,600),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,600, '6번'),
         tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy7
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,700),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,700, '7번'),
         tempEnemyObj.x = tempBoxObj.x = 1081.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy8
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,800),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,800, '8번'),
         tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // enemy9
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,900),
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,900, '9번'),
         tempEnemyObj.x = tempBoxObj.x = 1381.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
@@ -236,17 +235,13 @@ var GameLayer = cc.Layer.extend({
         var margin = 25,
             backMenu = new CMenu(this.getTexture("menu_back"));
 
-        var refreshMenu = new CMenu(this.getTexture("menu_refresh"));
-        refreshMenu.setPosition(cc.p(25, winSize.height - margin));
-        refreshMenu.onClick(function () {
-            var transition = cc.TransitionFade.create(0.5,new GameScene());
-            director.replaceScene(transition);
-        });
-        this.addChild(refreshMenu);
-        this.menus.push(refreshMenu);
-        
+        var menuItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onMainMenuCallback, this);
+		var imageMenu = cc.Menu.create(menuItem);
+        menuItem.setPosition(0,0);
+		imageMenu.setPosition(40, winSize.height - 40);
+		this.addChild(imageMenu, 2);
 
-    // --------- My Score ! ---------
+        // --------- My Score ! ---------
 
         var scoreLabel = cc.LabelTTF.create("0", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
         scoreLabel.setPosition(cc.p(winSize.width - 80, winSize.height));
@@ -259,117 +254,114 @@ var GameLayer = cc.Layer.extend({
         });
         this.addChild(scoreLabel, 5);
 
-    this.scheduleUpdate();
-  },
-  update: function (dt) {
-    b2.simulate();
+        this.scheduleUpdate();
+    },
+	onMainMenuCallback: function () {
+        var director = cc.Director.getInstance();
+        var scene = cc.Scene.create();
+        var layer = new GameScene();
+        scene.addChild(layer);
 
-    if (this.birdSprite.body) {
-      var bData = this.birdSprite.body.GetUserData();
-      if (!bData || bData.isContacted) return;
+		var ag = cc.AudioEngine.getInstance();
+		//ag.playMusic(bgm_sound, true);
+		ag.setMusicVolume(0.2);
 
-      var birdPos = this.birdSprite.getPosition(),
-        vector = cc.pSub(
-          birdPos,
-          (this.lastSmoke && this.lastSmoke.getPosition()) || cc.p(0, 0)
-        ),
-        length = cc.pLength(vector);
+        var transition = cc.TransitionFade.create(0.5,scene);
+        director.replaceScene(transition);
+	},
+    update: function (dt) {
+        b2.simulate();
 
-      if (length >= this.smokeDistance) {
-        this.lastSmoke = this.addObject({
-          name: "smoke",
-          x: birdPos.x,
-          y: birdPos.y,
-          scale: Math.random() >= 0.5 ? 0.8 : 0.6,
+        if (this.birdSprite.body) {
+            var bData = this.birdSprite.body.GetUserData();
+            if (!bData || bData.isContacted) return;
+
+            var birdPos = this.birdSprite.getPosition(),
+                vector = cc.pSub(birdPos, (this.lastSmoke && this.lastSmoke.getPosition()) || cc.p(0, 0)),
+                length = cc.pLength(vector);
+
+            if (length >= this.smokeDistance) {
+                this.lastSmoke = this.addObject({
+                    name: "smoke",
+                    x: birdPos.x,
+                    y: birdPos.y,
+                    scale: Math.random() >= 0.5 ? 0.8 : 0.6
+                });
+            }
+        }
+    },
+    onTouchesBegan: function (touch, evt) {
+        this.menus.forEach(function (menu) {
+            menu.handleTouches(touch, evt);
         });
-      }
-    }
-  },
-  onTouchesBegan: function (touch, evt) {
-    this.menus.forEach(function (menu) {
-      menu.handleTouches(touch, evt);
-    });
 
-    var currPoint = touch[0].getLocation(),
-      vector = cc.pSub(this.birdStartPos, currPoint);
+        var currPoint = touch[0].getLocation(),
+            vector = cc.pSub(this.birdStartPos, currPoint);
 
-    if (
-      (this.isDraggingSling = cc.pLength(vector) < this.slingRadius.max) &&
-      !this.birdSprite.body &&
-      !this.slingRubber3
-    ) {
-      this.slingRubber3 = this.addObject({
-        name: "sling3",
-        x: currPoint.x,
-        y: currPoint.y,
-        scaleY: 1.5,
-        scaleX: 2,
-        anchor: cc.p(0, 0.5),
-        z: 1,
-      });
-    }
-  },
-  onTouchesMoved: function (touch, evt) {
-    this.menus.forEach(function (menu) {
-      menu.handleTouchesMoved(touch, evt);
-    });
+        if ((this.isDraggingSling = (cc.pLength(vector) < this.slingRadius.max)) && !this.birdSprite.body && !this.slingRubber3) {
+            this.slingRubber3 = this.addObject({
+                name: "sling3",
+                x: currPoint.x,
+                y: currPoint.y,
+                scaleY: 1.5,
+                scaleX: 2,
+                anchor: cc.p(0, 0.5),
+                z: 1
+            });
+        }
+    },
+    onTouchesMoved: function (touch, evt) {
+        this.menus.forEach(function (menu) {
+            menu.handleTouchesMoved(touch, evt);
+        });
 
-    if (!this.isDraggingSling || this.birdSprite.body) return;
+        if (!this.isDraggingSling || this.birdSprite.body) return;
 
-    var currPoint = touch[0].getLocation(),
-      vector = cc.pSub(currPoint, this.birdStartPos),
-      radius = cc.pLength(vector),
-      angle = cc.pToAngle(vector);
+        var currPoint = touch[0].getLocation(),
+            vector = cc.pSub(currPoint, this.birdStartPos),
+            radius = cc.pLength(vector),
+            angle = cc.pToAngle(vector);
 
-    angle = angle < 0 ? Math.PI * 2 + angle : angle;
-    radius = MathH.clamp(radius, this.slingRadius.min, this.slingRadius.max);
-    if (angle <= this.slingAngle.max && angle >= this.slingAngle.min) {
-      radius = this.slingRadius.min;
-    }
+        angle = angle < 0 ? (Math.PI * 2) + angle : angle;
+        radius = MathH.clamp(radius, this.slingRadius.min, this.slingRadius.max);
+        if (angle <= this.slingAngle.max && angle >= this.slingAngle.min) {
+            radius = this.slingRadius.min;
+        }
 
-    this.birdSprite.setPosition(
-      cc.pAdd(
-        this.birdStartPos,
-        cc.p(radius * Math.cos(angle), radius * Math.sin(angle))
-      )
-    );
+        this.birdSprite.setPosition(cc.pAdd(this.birdStartPos, cc.p(radius * Math.cos(angle), radius * Math.sin(angle))));
 
-    var updateRubber = function (rubber, to, lengthAddon, topRubber) {
-      var from = rubber.getPosition(),
-        rubberVec = cc.pSub(to, from),
-        rubberAng = cc.pToAngle(rubberVec),
-        rubberDeg = cc.RADIANS_TO_DEGREES(rubberAng),
-        length = cc.pLength(rubberVec) + (lengthAddon || 8);
+        var updateRubber = function (rubber, to, lengthAddon, topRubber) {
+            var from = rubber.getPosition(),
+                rubberVec = cc.pSub(to, from),
+                rubberAng = cc.pToAngle(rubberVec),
+                rubberDeg = cc.RADIANS_TO_DEGREES(rubberAng),
+                length = cc.pLength(rubberVec) + (lengthAddon || 8);
 
-      rubber.setRotation(-rubberDeg);
-      rubber.setScaleX(-(length / rubber.getContentSize().width));
+            rubber.setRotation(-rubberDeg);
+            rubber.setScaleX(-(length / rubber.getContentSize()
+                .width));
 
-      if (topRubber) {
-        rubber.setScaleY(1.1 - (0.7 / this.slingRadius.max) * length);
-        this.slingRubber3.setRotation(-rubberDeg);
-        this.slingRubber3.setPosition(
-          cc.pAdd(
-            from,
-            cc.p(length * Math.cos(rubberAng), length * Math.sin(rubberAng))
-          )
-        );
-      }
-    }.bind(this);
+            if (topRubber) {
+                rubber.setScaleY(1.1 - ((0.7 / this.slingRadius.max) * length));
+                this.slingRubber3.setRotation(-rubberDeg);
+                this.slingRubber3.setPosition(cc.pAdd(from, cc.p((length) * Math.cos(rubberAng), (length) * Math.sin(rubberAng))));
+            }
+        }.bind(this);
 
-    var rubberToPos = this.birdSprite.getPosition();
-    updateRubber(this.slingRubber2, rubberToPos, 13, true);
-    updateRubber(this.slingRubber1, rubberToPos, 0);
-    this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
-  },
-  onTouchesEnded: function (touch, evt) {
-    this.menus.forEach(function (menu) {
-      menu.handleTouchesEnded(touch, evt);
-    });
+        var rubberToPos = this.birdSprite.getPosition();
+        updateRubber(this.slingRubber2, rubberToPos, 13, true);
+        updateRubber(this.slingRubber1, rubberToPos, 0);
+        this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
+    },
+    onTouchesEnded: function (touch, evt) {
+        this.menus.forEach(function (menu) {
+            menu.handleTouchesEnded(touch, evt);
+        });
 
-    if (!this.birdSprite.body && this.isDraggingSling) {
-      this.slingRubber1.setVisible(false);
-      this.slingRubber2.setVisible(false);
-      this.slingRubber3.setVisible(false);
+        if (!this.birdSprite.body && this.isDraggingSling) {
+            this.slingRubber1.setVisible(false);
+            this.slingRubber2.setVisible(false);
+            this.slingRubber3.setVisible(false);
 
             b2.enablePhysicsFor({
                 type: "dynamic",
@@ -380,30 +372,30 @@ var GameLayer = cc.Layer.extend({
                 userData: new BodyUserData(GameObjectRoll.Bird, 4000)
             });
 
-      var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
-        impulse = cc.pMult(vector, 12),
-        bPos = this.birdSprite.body.GetWorldCenter();
+            var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
+                impulse = cc.pMult(vector, 12),
+                bPos = this.birdSprite.body.GetWorldCenter();
 
-      this.birdSprite.body.ApplyImpulse(impulse, bPos);
+            this.birdSprite.body.ApplyImpulse(impulse, bPos);
 
-      this.isDraggingSling = false;
-    }
-  },
-  onKeyUp: function (e) {},
-  onKeyDown: function (e) {},
+            this.isDraggingSling = false;
+        }
+    },
+    onKeyUp: function (e) {},
+    onKeyDown: function (e) {}
 });
 
 //--------------------- Scene ---------------------
 
 var GameScene = cc.Scene.extend({
-  onEnter: function () {
-    this._super();
+    onEnter: function () {
+        this._super();
 
-    var layer = new GameLayer();
-    layer.init();
+        var layer = new GameLayer();
+        layer.init();
 
-    this.addChild(layer);
-  },
+        this.addChild(layer);
+    }
 });
 
 
@@ -429,17 +421,26 @@ var GameLayer2 = cc.Layer.extend({
         scoreLabel.setColor(cc.c3b(0, 0, 0));
         this.addChild(scoreLabel, 5);
 
-        var refreshMenu = new CMenu(this.getTexture("menu_refresh"));
-        refreshMenu.setPosition(cc.p(winSize.width/2, winSize.height/2));
-        refreshMenu.onClick(function () {
-            var transition = cc.TransitionFade.create(0.5,new GameScene());
-            director.replaceScene(transition);
-        });
-        this.addChild(refreshMenu);
-        this.menus.push(refreshMenu);
+        var menuItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onMainMenuCallback, this);
+		var imageMenu = cc.Menu.create(menuItem);
+        menuItem.setPosition(0,0);
+		this.addChild(imageMenu, 2);
 
         this.scheduleUpdate();
     },
+	onMainMenuCallback: function () {
+        var director = cc.Director.getInstance();
+        var scene = cc.Scene.create();
+        var layer = new GameScene();
+        scene.addChild(layer);
+
+		var ag = cc.AudioEngine.getInstance();
+		//ag.playMusic(bgm_sound, true);
+		ag.setMusicVolume(0.2);
+
+        var transition = cc.TransitionFade.create(0.5,scene);
+        director.replaceScene(transition);
+	},
     update: function (dt) {
     },
     onTouchesBegan: function (touch, evt) {
@@ -493,7 +494,7 @@ var StartScene = cc.Scene.extend({
         var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
         var menu = cc.Menu.create(menuItem);
         menu.setPosition(0,0);
-        menuItem.setPosition(winSize.width/2+ 120, winSize.height/2 + 100);
+        menuItem.setPosition(winSize.width/2, winSize.height/2);
 
         var menuItem = cc.MenuItemImage.create("sprites/bg.png","sprites/bg.png", this.onMainMenuCallback, this);
 		var imageMenu = cc.Menu.create(menuItem);
@@ -513,7 +514,7 @@ var StartScene = cc.Scene.extend({
 		//ag.playMusic(bgm_sound, true);
 		ag.setMusicVolume(0.2);
 
-        var transition = cc.TransitionProgressRadialCCW.create(0.5,scene);
+        var transition = cc.TransitionFade.create(0.5,scene);
         director.replaceScene(transition);
     },
 });
@@ -532,35 +533,32 @@ var ResultScene = cc.Scene.extend({
             winSize = director.getWinSize();
 
         var label = cc.LabelTTF.create("Result", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-        label.setColor(cc.c3b(0, 0, 0));
+        label.setColor(cc.c3b(255,255,255));
         var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
         var menu = cc.Menu.create(menuItem);
         menu.setPosition(0,0);
-        menuItem.setPosition(winSize.width, winSize.height/2 + 200);
+        menuItem.setPosition(winSize.width/2, winSize.height/2 + 200);
 
         var result_string = result_arr.join('/');
         var label = cc.LabelTTF.create(result_string, "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-		label.setColor(cc.c3b(0, 0, 0));
+        label.setColor(cc.c3b(255,255,255));
         var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
         var menu2 = cc.Menu.create(menuItem);
         menu2.setPosition(0,0);
-        menuItem.setPosition(winSize.width, winSize.height/2);
+        menuItem.setPosition(winSize.width/2, winSize.height/2);
 
+        this.addChild(menu, 1);
         this.addChild(menu2, 1);
-        this.addChild(menu, 2);
     },
     onMainMenuCallback:function () {
         var director = cc.Director.getInstance(),
             winSize = director.getWinSize();
         var scene = cc.Scene.create();
-        var layer = new GameScene();
+        var layer = new StartScene();
         scene.addChild(layer);
+		result_arr = [];
 
-		var ag = cc.AudioEngine.getInstance();
-		//ag.playMusic(bgm_sound, true);
-		ag.setMusicVolume(0.2);
-
-        var transition = cc.TransitionProgressRadialCCW.create(0.5,scene);
+		var transition = cc.TransitionFade.create(0.5,scene);
         director.replaceScene(transition);
     },
 });
