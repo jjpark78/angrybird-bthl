@@ -22,5 +22,5 @@ var g_ressources = (function () {
         });
     }
 
-    return retval;
-}());
+  return retval;
+})();

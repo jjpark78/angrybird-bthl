@@ -1,25 +1,25 @@
 // Author: www.mahdi7s.com
 
 var CMenu = cc.Sprite.extend({
-    defaultScale: 0.8,
-    hovered: false,
-    boundingBox: null,
-    onClickCallback: null,
-    ctor: function (tex) {
-        this._super();
-        this.initWithTexture(tex);
-        this.setScale(this.defaultScale);
-    },
-    onClick: function (callback) {
-        this.onClickCallback = callback;
-    },
-    handleTouches: function (touch, evt) {
-        (this.hovered && this.onClickCallback) && this.onClickCallback();
-    },
-    handleTouchesMoved: function (touch, evt) {
-        var point = touch[0].getLocation();
+  defaultScale: 0.8,
+  hovered: false,
+  boundingBox: null,
+  onClickCallback: null,
+  ctor: function (tex) {
+    this._super();
+    this.initWithTexture(tex);
+    this.setScale(this.defaultScale);
+  },
+  onClick: function (callback) {
+    this.onClickCallback = callback;
+  },
+  handleTouches: function (touch, evt) {
+    this.hovered && this.onClickCallback && this.onClickCallback();
+  },
+  handleTouchesMoved: function (touch, evt) {
+    var point = touch[0].getLocation();
 
-        this.boundingBox || (this.boundingBox = this.getBoundingBox());
+    this.boundingBox || (this.boundingBox = this.getBoundingBox());
 
         if (cc.rectContainsPoint(this.boundingBox, point)) {
             if (!this.hovered) {
@@ -59,41 +59,42 @@ var GameLayer = cc.Layer.extend({
     addObject: function (desc) {
         var sprite = cc.Sprite.createWithTexture(this.getTexture(desc.name));
 
-        sprite.setAnchorPoint(desc.anchor || cc.p(0.5, 0.5));
-        sprite.setScaleX(desc.scaleX || desc.scale || 1);
-        sprite.setScaleY(desc.scaleY || desc.scale || 1);
-        sprite.setRotation(desc.rotation || 0);
-        sprite.setPosition(cc.p(desc.x || 0, desc.y || 0));
+    sprite.setAnchorPoint(desc.anchor || cc.p(0.5, 0.5));
+    sprite.setScaleX(desc.scaleX || desc.scale || 1);
+    sprite.setScaleY(desc.scaleY || desc.scale || 1);
+    sprite.setRotation(desc.rotation || 0);
+    sprite.setPosition(cc.p(desc.x || 0, desc.y || 0));
 
-        desc.shape && b2.enablePhysicsFor({
-            type: desc.type,
-            shape: desc.shape,
-            sprite: sprite,
-            radius: desc.radius,
-            density: desc.density,
-            userData: desc.userData
-        });
+    desc.shape &&
+      b2.enablePhysicsFor({
+        type: desc.type,
+        shape: desc.shape,
+        sprite: sprite,
+        radius: desc.radius,
+        density: desc.density,
+        userData: desc.userData,
+      });
 
-        this.addChild(sprite, desc.z || 0);
-        return sprite;
-    },
-    init: function () {
-        this._super();
-        this.removeAllChildrenWithCleanup(true);
-        this.setTouchEnabled(true);
+    this.addChild(sprite, desc.z || 0);
+    return sprite;
+  },
+  init: function () {
+    this._super();
+    this.removeAllChildrenWithCleanup(true);
+    this.setTouchEnabled(true);
 
-        var director = cc.Director.getInstance(),
-            self = this,
-            winSize = director.getWinSize();
+    var director = cc.Director.getInstance(),
+      self = this,
+      winSize = director.getWinSize();
 
-        b2.initWorld();
+    b2.initWorld();
 
-        var bgSprite = this.addObject({
-            name: "bg",
-            scale: 1.6,
-            anchor: cc.p(0, 0),
-            z: -1
-        });
+    var bgSprite = this.addObject({
+      name: "bg",
+      scale: 1.6,
+      anchor: cc.p(0, 0),
+      z: -1,
+    });
 
         var groundY0Sprite = this.addObject({
             name: "ground",
@@ -245,7 +246,7 @@ var GameLayer = cc.Layer.extend({
         this.menus.push(refreshMenu);
         
 
-        // --------- My Score ! ---------
+    // --------- My Score ! ---------
 
         var scoreLabel = cc.LabelTTF.create("0", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
         scoreLabel.setPosition(cc.p(winSize.width - 80, winSize.height));
@@ -258,101 +259,117 @@ var GameLayer = cc.Layer.extend({
         });
         this.addChild(scoreLabel, 5);
 
-        this.scheduleUpdate();
-    },
-    update: function (dt) {
-        b2.simulate();
+    this.scheduleUpdate();
+  },
+  update: function (dt) {
+    b2.simulate();
 
-        if (this.birdSprite.body) {
-            var bData = this.birdSprite.body.GetUserData();
-            if (!bData || bData.isContacted) return;
+    if (this.birdSprite.body) {
+      var bData = this.birdSprite.body.GetUserData();
+      if (!bData || bData.isContacted) return;
 
-            var birdPos = this.birdSprite.getPosition(),
-                vector = cc.pSub(birdPos, (this.lastSmoke && this.lastSmoke.getPosition()) || cc.p(0, 0)),
-                length = cc.pLength(vector);
+      var birdPos = this.birdSprite.getPosition(),
+        vector = cc.pSub(
+          birdPos,
+          (this.lastSmoke && this.lastSmoke.getPosition()) || cc.p(0, 0)
+        ),
+        length = cc.pLength(vector);
 
-            if (length >= this.smokeDistance) {
-                this.lastSmoke = this.addObject({
-                    name: "smoke",
-                    x: birdPos.x,
-                    y: birdPos.y,
-                    scale: Math.random() >= 0.5 ? 0.8 : 0.6
-                });
-            }
-        }
-    },
-    onTouchesBegan: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouches(touch, evt);
+      if (length >= this.smokeDistance) {
+        this.lastSmoke = this.addObject({
+          name: "smoke",
+          x: birdPos.x,
+          y: birdPos.y,
+          scale: Math.random() >= 0.5 ? 0.8 : 0.6,
         });
+      }
+    }
+  },
+  onTouchesBegan: function (touch, evt) {
+    this.menus.forEach(function (menu) {
+      menu.handleTouches(touch, evt);
+    });
 
-        var currPoint = touch[0].getLocation(),
-            vector = cc.pSub(this.birdStartPos, currPoint);
+    var currPoint = touch[0].getLocation(),
+      vector = cc.pSub(this.birdStartPos, currPoint);
 
-        if ((this.isDraggingSling = (cc.pLength(vector) < this.slingRadius.max)) && !this.birdSprite.body && !this.slingRubber3) {
-            this.slingRubber3 = this.addObject({
-                name: "sling3",
-                x: currPoint.x,
-                y: currPoint.y,
-                scaleY: 1.5,
-                scaleX: 2,
-                anchor: cc.p(0, 0.5),
-                z: 1
-            });
-        }
-    },
-    onTouchesMoved: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesMoved(touch, evt);
-        });
+    if (
+      (this.isDraggingSling = cc.pLength(vector) < this.slingRadius.max) &&
+      !this.birdSprite.body &&
+      !this.slingRubber3
+    ) {
+      this.slingRubber3 = this.addObject({
+        name: "sling3",
+        x: currPoint.x,
+        y: currPoint.y,
+        scaleY: 1.5,
+        scaleX: 2,
+        anchor: cc.p(0, 0.5),
+        z: 1,
+      });
+    }
+  },
+  onTouchesMoved: function (touch, evt) {
+    this.menus.forEach(function (menu) {
+      menu.handleTouchesMoved(touch, evt);
+    });
 
-        if (!this.isDraggingSling || this.birdSprite.body) return;
+    if (!this.isDraggingSling || this.birdSprite.body) return;
 
-        var currPoint = touch[0].getLocation(),
-            vector = cc.pSub(currPoint, this.birdStartPos),
-            radius = cc.pLength(vector),
-            angle = cc.pToAngle(vector);
+    var currPoint = touch[0].getLocation(),
+      vector = cc.pSub(currPoint, this.birdStartPos),
+      radius = cc.pLength(vector),
+      angle = cc.pToAngle(vector);
 
-        angle = angle < 0 ? (Math.PI * 2) + angle : angle;
-        radius = MathH.clamp(radius, this.slingRadius.min, this.slingRadius.max);
-        if (angle <= this.slingAngle.max && angle >= this.slingAngle.min) {
-            radius = this.slingRadius.min;
-        }
+    angle = angle < 0 ? Math.PI * 2 + angle : angle;
+    radius = MathH.clamp(radius, this.slingRadius.min, this.slingRadius.max);
+    if (angle <= this.slingAngle.max && angle >= this.slingAngle.min) {
+      radius = this.slingRadius.min;
+    }
 
-        this.birdSprite.setPosition(cc.pAdd(this.birdStartPos, cc.p(radius * Math.cos(angle), radius * Math.sin(angle))));
+    this.birdSprite.setPosition(
+      cc.pAdd(
+        this.birdStartPos,
+        cc.p(radius * Math.cos(angle), radius * Math.sin(angle))
+      )
+    );
 
-        var updateRubber = function (rubber, to, lengthAddon, topRubber) {
-            var from = rubber.getPosition(),
-                rubberVec = cc.pSub(to, from),
-                rubberAng = cc.pToAngle(rubberVec),
-                rubberDeg = cc.RADIANS_TO_DEGREES(rubberAng),
-                length = cc.pLength(rubberVec) + (lengthAddon || 8);
+    var updateRubber = function (rubber, to, lengthAddon, topRubber) {
+      var from = rubber.getPosition(),
+        rubberVec = cc.pSub(to, from),
+        rubberAng = cc.pToAngle(rubberVec),
+        rubberDeg = cc.RADIANS_TO_DEGREES(rubberAng),
+        length = cc.pLength(rubberVec) + (lengthAddon || 8);
 
-            rubber.setRotation(-rubberDeg);
-            rubber.setScaleX(-(length / rubber.getContentSize()
-                .width));
+      rubber.setRotation(-rubberDeg);
+      rubber.setScaleX(-(length / rubber.getContentSize().width));
 
-            if (topRubber) {
-                rubber.setScaleY(1.1 - ((0.7 / this.slingRadius.max) * length));
-                this.slingRubber3.setRotation(-rubberDeg);
-                this.slingRubber3.setPosition(cc.pAdd(from, cc.p((length) * Math.cos(rubberAng), (length) * Math.sin(rubberAng))));
-            }
-        }.bind(this);
+      if (topRubber) {
+        rubber.setScaleY(1.1 - (0.7 / this.slingRadius.max) * length);
+        this.slingRubber3.setRotation(-rubberDeg);
+        this.slingRubber3.setPosition(
+          cc.pAdd(
+            from,
+            cc.p(length * Math.cos(rubberAng), length * Math.sin(rubberAng))
+          )
+        );
+      }
+    }.bind(this);
 
-        var rubberToPos = this.birdSprite.getPosition();
-        updateRubber(this.slingRubber2, rubberToPos, 13, true);
-        updateRubber(this.slingRubber1, rubberToPos, 0);
-        this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
-    },
-    onTouchesEnded: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesEnded(touch, evt);
-        });
+    var rubberToPos = this.birdSprite.getPosition();
+    updateRubber(this.slingRubber2, rubberToPos, 13, true);
+    updateRubber(this.slingRubber1, rubberToPos, 0);
+    this.slingRubber1.setScaleY(this.slingRubber2.getScaleY());
+  },
+  onTouchesEnded: function (touch, evt) {
+    this.menus.forEach(function (menu) {
+      menu.handleTouchesEnded(touch, evt);
+    });
 
-        if (!this.birdSprite.body && this.isDraggingSling) {
-            this.slingRubber1.setVisible(false);
-            this.slingRubber2.setVisible(false);
-            this.slingRubber3.setVisible(false);
+    if (!this.birdSprite.body && this.isDraggingSling) {
+      this.slingRubber1.setVisible(false);
+      this.slingRubber2.setVisible(false);
+      this.slingRubber3.setVisible(false);
 
             b2.enablePhysicsFor({
                 type: "dynamic",
@@ -363,30 +380,30 @@ var GameLayer = cc.Layer.extend({
                 userData: new BodyUserData(GameObjectRoll.Bird, 4000)
             });
 
-            var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
-                impulse = cc.pMult(vector, 12),
-                bPos = this.birdSprite.body.GetWorldCenter();
+      var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
+        impulse = cc.pMult(vector, 12),
+        bPos = this.birdSprite.body.GetWorldCenter();
 
-            this.birdSprite.body.ApplyImpulse(impulse, bPos);
+      this.birdSprite.body.ApplyImpulse(impulse, bPos);
 
-            this.isDraggingSling = false;
-        }
-    },
-    onKeyUp: function (e) {},
-    onKeyDown: function (e) {}
+      this.isDraggingSling = false;
+    }
+  },
+  onKeyUp: function (e) {},
+  onKeyDown: function (e) {},
 });
 
 //--------------------- Scene ---------------------
 
 var GameScene = cc.Scene.extend({
-    onEnter: function () {
-        this._super();
+  onEnter: function () {
+    this._super();
 
-        var layer = new GameLayer();
-        layer.init();
+    var layer = new GameLayer();
+    layer.init();
 
-        this.addChild(layer);
-    }
+    this.addChild(layer);
+  },
 });
 
 
