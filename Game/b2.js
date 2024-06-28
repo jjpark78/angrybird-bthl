@@ -6,25 +6,31 @@ var MathH = {
   },
 };
 
-var BodyUserData = function (objectRoll, fullHealth) {
-  var self = this,
-    currentHealth = fullHealth;
+var BodyUserData = function (objectRoll, fullHealth, score) {
+    var self = this,
+        currentHealth = fullHealth,
+        score = score;
 
-  this.isDead = false;
-  this.isContacted = false;
-  this.getObjectRoll = function () {
-    return objectRoll;
-  };
-  this.getFullHealth = function () {
-    return fullHealth;
-  };
-  this.getHealth = function () {
-    return self.currentHealth;
-  };
-  this.damage = function (impulse) {
-    this.isDead = (currentHealth -= impulse) <= 0;
-  };
-};
+    this.isDead = false;
+    this.isContacted = false;
+    this.getObjectRoll = function () {
+        return objectRoll;
+    };
+    this.getFullHealth = function () {
+        return fullHealth;
+    };
+    this.getHealth = function () {
+        return self.currentHealth;
+    };
+    this.getScore = function () {
+        return score;
+    };
+    this.damage = function (impulse) {
+		cc.AudioEngine.getInstance().playEffect(impact_sound, false);
+
+        this.isDead = ((currentHealth -= impulse) <= 0);
+    };
+}
 
 var GameObjectRoll = {
   Enemy: "ENEMY!",
@@ -139,14 +145,11 @@ var b2 = (function () {
       )
         return;
 
-      var objRoll = bodyData.getObjectRoll();
-      if (
-        objRoll ===
-        GameObjectRoll.Enemy /* || objRoll === GameObjectRoll.Wood */
-      ) {
-        bodyData.damage(imp0);
-      }
-    };
+            var objRoll = bodyData.getObjectRoll();
+            if (objRoll === GameObjectRoll.Enemy || objRoll === GameObjectRoll.Bird /* || objRoll === GameObjectRoll.Wood */ ) {
+                bodyData.damage(imp0);
+            }
+        };
 
     damage(bAData);
     damage(bBData);
@@ -226,16 +229,15 @@ var b2 = (function () {
       body.sprite = desc.sprite;
       desc.sprite.body = body;
 
-      bodies.push(body);
-    },
-    simulate: function () {
-      world.Step(
-        1 / 60, // fixed time step
-        10, // velocity iterations
-        10
-      ); // position iterations
+            bodies.push(body);
+        },
+        simulate: function () {
+            world.Step(1 / 45, // fixed time step
+            10, // velocity iterations
+            10); // position iterations
 
-      enableDebugDraw && world.DrawDebugData();
+            enableDebugDraw && world.DrawDebugData();
+			var ag = cc.AudioEngine.getInstance();
 
       for (var i = 0; i < bodies.length; i++) {
         var body = bodies[i],
@@ -246,13 +248,21 @@ var b2 = (function () {
         if (bodyData && bodyData.isDead) {
           world.DestroyBody(body);
 
-          // score calculation by jungkun
-          userScore = ++deadsCount * 10;
+                    if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
+                        if (userScore == 0) {
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new GameScene2()));
+                        } else {
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new StartScene()));
+                        }
+                    }
 
-          // goal image animation by jungkun
-          body.sprite.runAction(cc.ScaleTo.create(0.5, 2.5));
-          body.sprite.runAction(cc.FadeOut.create(0.5));
-          body.SetUserData(null);
+					if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
+						ag.playEffect(effect_sound, false);
+						userScore += bodyData.getScore() * 1;
+                        result_arr.insert(userScore);
+					}
+                    body.sprite.runAction(cc.FadeOut.create(0.3));
+                    body.SetUserData(null);
 
           continue;
         }
