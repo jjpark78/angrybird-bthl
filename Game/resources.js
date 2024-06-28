@@ -1,6 +1,7 @@
 var bgm_sound = "sounds/bgm.mp3",
 	effect_sound = "sounds/effect.mp3",
-	impact_sound = "sounds/impact.mp3";
+	impact_sound = "sounds/impact.mp3",
+    fail_sound = "sounds/fail.mp3";
 
 var result_arr = [];
 
@@ -22,5 +23,5 @@ var g_ressources = (function () {
         });
     }
 
-  return retval;
-})();
+    return retval;
+}());
