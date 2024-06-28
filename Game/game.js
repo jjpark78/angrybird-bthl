@@ -195,30 +195,38 @@ var GameLayer = cc.Layer.extend({
                 density: 0
             };
     
+        var goal_position_arr = [
+            {x:1000, y:550},
+            {x:1250, y:750},
+            {x:1500, y:550},
+            {x:1100, y:300},
+            {x:1400, y:300},
+        ];
+        goal_position_arr.sort((a, b) => 0.5 - Math.random());
         // goal1
         tempEnemyObj.name = "goal01",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,1),
-        tempEnemyObj.x = tempBoxObj.x = 1000, tempEnemyObj.y = 550, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
+        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[0].x, tempEnemyObj.y = goal_position_arr[0].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal2
         tempEnemyObj.name = "goal02",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,2),
-        tempEnemyObj.x = tempBoxObj.x = 1250, tempEnemyObj.y = 750, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
+        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[1].x, tempEnemyObj.y = goal_position_arr[1].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal3
         tempEnemyObj.name = "goal03",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,3),
-        tempEnemyObj.x = tempBoxObj.x = 1500, tempEnemyObj.y = 550, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
+        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[2].x, tempEnemyObj.y = goal_position_arr[2].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal4
         tempEnemyObj.name = "goal04",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,4),
-        tempEnemyObj.x = tempBoxObj.x = 1100, tempEnemyObj.y = 300, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
+        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[3].x, tempEnemyObj.y = goal_position_arr[3].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal5
         tempEnemyObj.name = "goal05",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,5),
-        tempEnemyObj.x = tempBoxObj.x = 1400, tempEnemyObj.y = 300, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
+        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[4].x, tempEnemyObj.y = goal_position_arr[4].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
         var refreshItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onRefreshCallback, this);
