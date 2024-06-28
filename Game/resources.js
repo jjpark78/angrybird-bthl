@@ -16,7 +16,7 @@ var g_ressources = (function () {
             "bg_finish",
             "platform", 
             "bird", 
-            "big_character",
+            "poll", 
             "sling1", 
             "sling2", 
             "sling3", 
