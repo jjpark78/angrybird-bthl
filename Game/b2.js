@@ -30,8 +30,6 @@ var BodyUserData = function (objectRoll, fullHealth, score, description) {
         return description;
     };
     this.damage = function (impulse) {
-		cc.AudioEngine.getInstance().playEffect(impact_sound, false);
-
         this.isDead = ((currentHealth -= impulse) <= 0);
     };
 }
@@ -241,8 +239,8 @@ var b2 = (function () {
 
                     if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
                         if (userScore == 0) {
-                            ag.playMusic(fail_sound, false);
-                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new GameScene2()));
+                            ag.playEffect(fail_sound, false);
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new RetryScene()));
                         } else {
                             cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new ResultScene()));
                         }

@@ -8,7 +8,7 @@
         tag: 'viewport',
         SingleEngineFile: 'cocos2d-html5.min.js',
         /* engineDir:'../cocos2d/', */
-        appFiles: ['resources.js', 'b2.js', 'game.js']
+        appFiles: ['resources.js', 'b2.js', 'game.js', 'intro.js', 'result.js', 'retry.js']
     };
     window.addEventListener('DOMContentLoaded', function () {
         var s = d.createElement('script');

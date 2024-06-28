@@ -7,7 +7,31 @@ var result_arr = [];
 
 var g_ressources = (function () {
     var retval = [],
-        imgs = ["bg", "platform", "bird", "enemy", "sling1", "sling2", "sling3", "ground", "wood1", "wood2", "smoke", "menu_refresh", "menu_back"],
+        imgs = [
+            "intro1",
+            "intro2",
+            "intro3",
+            "intro4",
+            "bg",
+            "bg_finish",
+            "platform", 
+            "bird", 
+            "big_character",
+            "sling1", 
+            "sling2", 
+            "sling3", 
+            "ground", 
+            "wood1", 
+            "wood2", 
+            "smoke", 
+            "menu_refresh", 
+            "menu_back",
+            "goal01",
+            "goal02",
+            "goal03",
+            "goal04",
+            "goal05",
+        ],
         sounds = [bgm_sound, effect_sound, impact_sound];
 
     for (var i = 0; i < sounds.length; i++) {

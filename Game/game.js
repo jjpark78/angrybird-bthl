@@ -90,7 +90,7 @@ var GameLayer = cc.Layer.extend({
 
         var bgSprite = this.addObject({
             name: "bg",
-            scale: 1.6,
+            scale: 1.8,
             anchor: cc.p(0, 0),
             z: -1
         });
@@ -173,7 +173,7 @@ var GameLayer = cc.Layer.extend({
         
         var enemyHealth = 500,
             tempEnemyObj = {
-                name: "enemy",
+                name: "goal01",
                 type: "dynamic",
                 shape: "circle",
                 density: 15,
@@ -194,41 +194,30 @@ var GameLayer = cc.Layer.extend({
             z: 1
         });
     
-        // enemy1
+        // goal1
+        tempEnemyObj.name = "goal01",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth, 100, '1번'),
-        tempEnemyObj.x = tempBoxObj.x = 981.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1081.5, tempEnemyObj.y = 671, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy2
+        // goal2
+        tempEnemyObj.name = "goal02",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,200, '2번'),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 851, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.x = tempBoxObj.x = 1271.5, tempEnemyObj.y = 751, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy3
+        // goal3
+        tempEnemyObj.name = "goal03",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,300, '3번'),
-        tempEnemyObj.x = tempBoxObj.x = 1531.5, tempEnemyObj.y = 771, tempBoxObj.y = tempEnemyObj.y - 20;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy4
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,400, '4번'),
-        tempEnemyObj.x = tempBoxObj.x = 1031.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy5
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,500, '5번'),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 671, tempBoxObj.y = tempEnemyObj.y - 20;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy6
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,600, '6번'),
         tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy7
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,700, '7번'),
-        tempEnemyObj.x = tempBoxObj.x = 1081.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
+        // goal4
+        tempEnemyObj.name = "goal04",
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,400, '4번'),
+        tempEnemyObj.x = tempBoxObj.x = 1031.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy8
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,800, '8번'),
+        // goal5
+        tempEnemyObj.name = "goal05",
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,500, '5번'),
         tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
-        // enemy9
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,900, '9번'),
-        tempEnemyObj.x = tempBoxObj.x = 1381.5, tempEnemyObj.y = 371, tempBoxObj.y = tempEnemyObj.y - 20;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
         // --------- Top Menu ! ---------
@@ -386,7 +375,6 @@ var GameLayer = cc.Layer.extend({
 });
 
 //--------------------- Scene ---------------------
-
 var GameScene = cc.Scene.extend({
     onEnter: function () {
         this._super();
@@ -396,169 +384,4 @@ var GameScene = cc.Scene.extend({
 
         this.addChild(layer);
     }
-});
-
-
-var GameLayer2 = cc.Layer.extend({
-    menus: [],
-    getTexture: function (name) {
-        return cc.TextureCache.getInstance()
-            .addImage('sprites/' + name + '.png');
-    },
-    init: function () {
-        this._super();
-        this.removeAllChildrenWithCleanup(true);
-        this.setTouchEnabled(true);
-
-        var director = cc.Director.getInstance(),
-            self = this,
-            winSize = director.getWinSize();
-
-        b2.initWorld();
-
-        var scoreLabel = cc.LabelTTF.create("Retry", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-        scoreLabel.setPosition(cc.p(winSize.width/2+ 60, winSize.height/2 + 100));
-        scoreLabel.setColor(cc.c3b(0, 0, 0));
-        this.addChild(scoreLabel, 5);
-
-        var menuItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onMainMenuCallback, this);
-		var imageMenu = cc.Menu.create(menuItem);
-        menuItem.setPosition(0,0);
-		this.addChild(imageMenu, 2);
-
-        this.scheduleUpdate();
-    },
-	onMainMenuCallback: function () {
-        var director = cc.Director.getInstance();
-        var scene = cc.Scene.create();
-        var layer = new GameScene();
-        scene.addChild(layer);
-
-		var ag = cc.AudioEngine.getInstance();
-		//ag.playMusic(bgm_sound, true);
-		ag.setMusicVolume(0.2);
-
-        var transition = cc.TransitionFade.create(0.5,scene);
-        director.replaceScene(transition);
-	},
-    update: function (dt) {
-    },
-    onTouchesBegan: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouches(touch, evt);
-        });
-    },
-    onTouchesMoved: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesMoved(touch, evt);
-        });
-    },
-    onTouchesEnded: function (touch, evt) {
-        this.menus.forEach(function (menu) {
-            menu.handleTouchesEnded(touch, evt);
-        });
-    },
-    onKeyUp: function (e) {},
-    onKeyDown: function (e) {}
-});
-
-//--------------------- Scene ---------------------
-
-var GameScene2 = cc.Scene.extend({
-    onEnter: function () {
-        this._super();
-
-        var layer = new GameLayer2();
-        layer.init();
-
-        this.addChild(layer);
-    }
-});
-
-//--------------------- Scene ---------------------
-
-var StartScene = cc.Scene.extend({
-    ctor:function (bPortrait) {
-        this._super();
-        this.init();
-    },
-
-    // callbacks
-    onEnter:function () {
-        this._super();
-        var director = cc.Director.getInstance(),
-            winSize = director.getWinSize();
-
-        var label = cc.LabelTTF.create("Game Start", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-		label.setColor(cc.c3b(0, 0, 0));
-        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
-        var menu = cc.Menu.create(menuItem);
-        menu.setPosition(0,0);
-        menuItem.setPosition(winSize.width/2, winSize.height/2);
-
-        var menuItem = cc.MenuItemImage.create("sprites/bg.png","sprites/bg.png", this.onMainMenuCallback, this);
-		var imageMenu = cc.Menu.create(menuItem);
-        menuItem.setPosition(0,0);
-
-        this.addChild(imageMenu, 1);
-        this.addChild(menu, 2);
-    },
-    onMainMenuCallback:function () {
-        var director = cc.Director.getInstance(),
-            winSize = director.getWinSize();
-        var scene = cc.Scene.create();
-        var layer = new GameScene();
-        scene.addChild(layer);
-
-		var ag = cc.AudioEngine.getInstance();
-		//ag.playMusic(bgm_sound, true);
-		ag.setMusicVolume(0.2);
-
-        var transition = cc.TransitionFade.create(0.5,scene);
-        director.replaceScene(transition);
-    },
-});
-
-
-var ResultScene = cc.Scene.extend({
-    ctor:function (bPortrait) {
-        this._super();
-        this.init();
-    },
-
-    // callbacks
-    onEnter:function () {
-        this._super();
-        var director = cc.Director.getInstance(),
-            winSize = director.getWinSize();
-
-        var label = cc.LabelTTF.create("Result", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-        label.setColor(cc.c3b(255,255,255));
-        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
-        var menu = cc.Menu.create(menuItem);
-        menu.setPosition(0,0);
-        menuItem.setPosition(winSize.width/2, winSize.height/2 + 200);
-
-        var result_string = result_arr.join('/');
-        var label = cc.LabelTTF.create(result_string, "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_CENTER);
-        label.setColor(cc.c3b(255,255,255));
-        var menuItem = cc.MenuItemLabel.create(label, this.onMainMenuCallback, this);
-        var menu2 = cc.Menu.create(menuItem);
-        menu2.setPosition(0,0);
-        menuItem.setPosition(winSize.width/2, winSize.height/2);
-
-        this.addChild(menu, 1);
-        this.addChild(menu2, 1);
-    },
-    onMainMenuCallback:function () {
-        var director = cc.Director.getInstance(),
-            winSize = director.getWinSize();
-        var scene = cc.Scene.create();
-        var layer = new StartScene();
-        scene.addChild(layer);
-		result_arr = [];
-
-		var transition = cc.TransitionFade.create(0.5,scene);
-        director.replaceScene(transition);
-    },
 });
