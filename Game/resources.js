@@ -8,7 +8,7 @@ var result_arr = [];
 var g_ressources = (function () {
     var retval = [],
         imgs = [
-            "intro1",
+            "intro01",
             "intro2",
             "intro3",
             "intro4",

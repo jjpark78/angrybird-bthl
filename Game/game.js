@@ -1,7 +1,7 @@
 // Author: www.mahdi7s.com
 
 var CMenu = cc.Sprite.extend({
-    defaultScale: 0.8,
+    defaultScale: 0.6,
     hovered: false,
     boundingBox: null,
     onClickCallback: null,
@@ -235,6 +235,7 @@ var GameLayer = cc.Layer.extend({
         var scene = cc.Scene.create();
         var layer = new GameScene();
         scene.addChild(layer);
+        result_arr = [];
 
 		var ag = cc.AudioEngine.getInstance();
 		//ag.playMusic(bgm_sound, true);
@@ -343,7 +344,7 @@ var GameLayer = cc.Layer.extend({
                 sprite: this.birdSprite,
                 density: 22,
                 restitution: 0.8,
-                userData: new BodyUserData(GameObjectRoll.Bird, 6000)
+                userData: new BodyUserData(GameObjectRoll.Bird, 10000)
             });
 
             var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
