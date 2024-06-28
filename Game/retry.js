@@ -32,6 +32,7 @@ var RetryLayer = cc.Layer.extend({
         var scene = cc.Scene.create();
         var layer = new GameScene();
         scene.addChild(layer);
+        result_arr = [];
 
         var transition = cc.TransitionFade.create(0.5,scene);
         director.replaceScene(transition);

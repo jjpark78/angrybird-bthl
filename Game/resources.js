@@ -8,7 +8,7 @@ var result_arr = [];
 var g_ressources = (function () {
     var retval = [],
         imgs = [
-            "intro1",
+            "intro01",
             "intro2",
             "intro3",
             "intro4",
@@ -16,7 +16,7 @@ var g_ressources = (function () {
             "bg_finish",
             "platform", 
             "bird", 
-            "big_character",
+            "poll", 
             "sling1", 
             "sling2", 
             "sling3", 

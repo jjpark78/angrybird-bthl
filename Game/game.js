@@ -1,7 +1,7 @@
 // Author: www.mahdi7s.com
 
 var CMenu = cc.Sprite.extend({
-    defaultScale: 0.8,
+    defaultScale: 0.6,
     hovered: false,
     boundingBox: null,
     onClickCallback: null,
@@ -37,7 +37,7 @@ var CMenu = cc.Sprite.extend({
 var GameLayer = cc.Layer.extend({
     birdSprite: null,
     isDraggingSling: false,
-    birdStartPos: cc.p(360, 240.5),
+    birdStartPos: cc.p(382, 395),
     slingRadius: {
         min: 20,
         max: 220
@@ -136,25 +136,30 @@ var GameLayer = cc.Layer.extend({
             density: 0
         });
 
-        var sling1Sprite = this.addObject({
-            name: "sling1",
-            x: 404.5,
-            y: 19.5,
-            scale: 1.2,
-            anchor: cc.p(1, 0)
+        this.birdSprite = this.addObject({
+            name: "bird",
+            x: 382, 
+            y: 395,
+            z: 1,
+            scale:0.15
         });
-        var sling2Sprite = this.addObject({
-            name: "sling2",
-            x: 375.5,
-            y: 120,
-            scale: 1.2,
-            anchor: cc.p(1, 0),
-            z: 3
+        this.addObject({
+            name: "poll",
+            x: 424.5,
+            y: 358,
+            scale: 0.1,
+        });
+        this.addObject({
+            name: "poll",
+            x: 350.5,
+            y: 338,
+            z: 3,
+            scale: 0.1,
         });
         this.slingRubber1 = this.addObject({
             name: "sling3",
-            x: 385,
-            y: 230,
+            x: 425,
+            y: 410,
             scaleY: 0.7,
             scaleX: 0,
             anchor: cc.p(1, 0.5),
@@ -163,7 +168,7 @@ var GameLayer = cc.Layer.extend({
         this.slingRubber2 = this.addObject({
             name: "sling3",
             x: 350,
-            y: 240,
+            y: 380,
             scaleY: 0.7,
             scaleX: 0,
             anchor: cc.p(1, 0.5),
@@ -171,12 +176,14 @@ var GameLayer = cc.Layer.extend({
         });
         this.slingRubber3 = null;
         
-        var enemyHealth = 500,
+        var enemyHealth = 1000,
+            yPositionMargin = 1,
             tempEnemyObj = {
                 name: "goal01",
                 type: "dynamic",
                 shape: "circle",
                 density: 15,
+                scale:1.5,
             },
             tempBoxObj = {
                 name: "platform",
@@ -187,69 +194,48 @@ var GameLayer = cc.Layer.extend({
                 shape: "box",
                 density: 0
             };
-        this.birdSprite = this.addObject({
-            name: "bird",
-            x: 360, 
-            y: 240.5,
-            z: 1
-        });
     
         // goal1
         tempEnemyObj.name = "goal01",
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth, 100, '1번'),
-        tempEnemyObj.x = tempBoxObj.x = 1081.5, tempEnemyObj.y = 671, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,1),
+        tempEnemyObj.x = tempBoxObj.x = 1000, tempEnemyObj.y = 550, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal2
         tempEnemyObj.name = "goal02",
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,200, '2번'),
-        tempEnemyObj.x = tempBoxObj.x = 1271.5, tempEnemyObj.y = 751, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,2),
+        tempEnemyObj.x = tempBoxObj.x = 1250, tempEnemyObj.y = 750, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal3
         tempEnemyObj.name = "goal03",
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,300, '3번'),
-        tempEnemyObj.x = tempBoxObj.x = 1431.5, tempEnemyObj.y = 571, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,3),
+        tempEnemyObj.x = tempBoxObj.x = 1500, tempEnemyObj.y = 550, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal4
         tempEnemyObj.name = "goal04",
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,400, '4번'),
-        tempEnemyObj.x = tempBoxObj.x = 1031.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,4),
+        tempEnemyObj.x = tempBoxObj.x = 1100, tempEnemyObj.y = 300, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
         // goal5
         tempEnemyObj.name = "goal05",
-        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,500, '5번'),
-        tempEnemyObj.x = tempBoxObj.x = 1231.5, tempEnemyObj.y = 471, tempBoxObj.y = tempEnemyObj.y - 20;
+        tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,5),
+        tempEnemyObj.x = tempBoxObj.x = 1400, tempEnemyObj.y = 300, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
         this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
 
-        // --------- Top Menu ! ---------
-        var margin = 25,
-            backMenu = new CMenu(this.getTexture("menu_back"));
-
-        var menuItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onMainMenuCallback, this);
-		var imageMenu = cc.Menu.create(menuItem);
-        menuItem.setPosition(0,0);
-		imageMenu.setPosition(40, winSize.height - 40);
-		this.addChild(imageMenu, 2);
-
-        // --------- My Score ! ---------
-
-        var scoreLabel = cc.LabelTTF.create("0", "fantasy", 50, cc.size(0, 0), cc.TEXT_ALIGNMENT_LEFT);
-        scoreLabel.setPosition(cc.p(winSize.width - 80, winSize.height));
-        scoreLabel.schedule(function () {
-            var showingScore = parseInt(scoreLabel.getString());
-            if (showingScore < b2.getUserScore()) {
-                scoreLabel.setString((showingScore + 5)
-                    .toString());
-            }
-        });
-        this.addChild(scoreLabel, 5);
+        var refreshItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onRefreshCallback, this);
+        var imageMenu = cc.Menu.create(refreshItem);
+        refreshItem.setPosition(0,0);
+        refreshItem.setScale(2);
+        imageMenu.setPosition(80, winSize.height - 80);
+        this.addChild(imageMenu, 999);
 
         this.scheduleUpdate();
     },
-	onMainMenuCallback: function () {
+	onRefreshCallback: function () {
         var director = cc.Director.getInstance();
         var scene = cc.Scene.create();
         var layer = new GameScene();
         scene.addChild(layer);
+        result_arr = [];
 
 		var ag = cc.AudioEngine.getInstance();
 		//ag.playMusic(bgm_sound, true);
@@ -356,9 +342,9 @@ var GameLayer = cc.Layer.extend({
                 type: "dynamic",
                 shape: "circle",
                 sprite: this.birdSprite,
-                density: 50,
+                density: 22,
                 restitution: 0.8,
-                userData: new BodyUserData(GameObjectRoll.Bird, 4000)
+                userData: new BodyUserData(GameObjectRoll.Bird, 10000)
             });
 
             var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),

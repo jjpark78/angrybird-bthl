@@ -6,7 +6,7 @@ var MathH = {
     }
 };
 
-var BodyUserData = function (objectRoll, fullHealth, score, description) {
+var BodyUserData = function (objectRoll, fullHealth, score) {
     var self = this,
         currentHealth = fullHealth,
         score = score,
@@ -25,9 +25,6 @@ var BodyUserData = function (objectRoll, fullHealth, score, description) {
     };
     this.getScore = function () {
         return score;
-    };
-    this.getDescription = function () {
-        return description;
     };
     this.damage = function (impulse) {
         this.isDead = ((currentHealth -= impulse) <= 0);
@@ -248,8 +245,8 @@ var b2 = (function () {
 
 					if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
 						ag.playEffect(effect_sound, false);
-						userScore += bodyData.getScore() * 1;
-                        result_arr.push(bodyData.getDescription());
+						userScore++;
+                        result_arr.push(bodyData.getScore());
 					}
                     body.sprite.runAction(cc.FadeOut.create(0.3));
                     body.SetUserData(null);
