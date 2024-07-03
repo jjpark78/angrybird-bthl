@@ -218,7 +218,7 @@ var b2 = (function () {
             bodies.push(body);
         },
         simulate: function () {
-            world.Step(1 / 45, // fixed time step
+            world.Step(1 / 32, // fixed time step
             10, // velocity iterations
             10); // position iterations
 
@@ -236,6 +236,7 @@ var b2 = (function () {
 
                     if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
                         if (userScore == 0) {
+                            ag.setEffectsVolume(0.2);
                             ag.playEffect(fail_sound, false);
                             cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new RetryScene()));
                         } else {
@@ -244,6 +245,7 @@ var b2 = (function () {
                     }
 
 					if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
+                        ag.setEffectsVolume(0.2);
 						ag.playEffect(effect_sound, false);
 						userScore++;
                         result_arr.push(bodyData.getScore());

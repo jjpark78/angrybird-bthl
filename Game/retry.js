@@ -15,8 +15,8 @@ var RetryLayer = cc.Layer.extend({
     b2.initWorld();
 
     var RetryBGItem = cc.MenuItemImage.create(
-      "sprites/retry.png",
-      "sprites/retry.png",
+      `sprites/${language_code}_retry.png`,
+      `sprites/${language_code}_retry.png`,
       this.onMainMenuCallback,
       this
     );

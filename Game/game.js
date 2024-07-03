@@ -176,23 +176,15 @@ var GameLayer = cc.Layer.extend({
         });
         this.slingRubber3 = null;
         
-        var enemyHealth = 1000,
+        var enemyHealth = 1,
             yPositionMargin = 1,
             tempEnemyObj = {
                 name: "goal01",
-                type: "dynamic",
-                shape: "circle",
-                density: 15,
-                scale:1.5,
-            },
-            tempBoxObj = {
-                name: "platform",
-                scaleX: 0.00001,
-                scaleY: 0.00001,
-                anchor: cc.p(0, 0),
                 type: "static",
-                shape: "box",
-                density: 0
+                shape: "circle",
+                density: 50,
+                restitution: 0,
+                scale:1.5,
             };
     
         var goal_position_arr = [
@@ -206,28 +198,28 @@ var GameLayer = cc.Layer.extend({
         // goal1
         tempEnemyObj.name = "goal01",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,1),
-        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[0].x, tempEnemyObj.y = goal_position_arr[0].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        tempEnemyObj.x = goal_position_arr[0].x, tempEnemyObj.y = goal_position_arr[0].y;
+        this.addObject(tempEnemyObj);
         // goal2
         tempEnemyObj.name = "goal02",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,2),
-        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[1].x, tempEnemyObj.y = goal_position_arr[1].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        tempEnemyObj.x = goal_position_arr[1].x, tempEnemyObj.y = goal_position_arr[1].y;
+        this.addObject(tempEnemyObj);
         // goal3
         tempEnemyObj.name = "goal03",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,3),
-        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[2].x, tempEnemyObj.y = goal_position_arr[2].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        tempEnemyObj.x = goal_position_arr[2].x, tempEnemyObj.y = goal_position_arr[2].y;
+        this.addObject(tempEnemyObj);
         // goal4
         tempEnemyObj.name = "goal04",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,4),
-        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[3].x, tempEnemyObj.y = goal_position_arr[3].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        tempEnemyObj.x = goal_position_arr[3].x, tempEnemyObj.y = goal_position_arr[3].y;
+        this.addObject(tempEnemyObj);
         // goal5
         tempEnemyObj.name = "goal05",
         tempEnemyObj.userData = new BodyUserData(GameObjectRoll.Enemy, enemyHealth,5),
-        tempEnemyObj.x = tempBoxObj.x = goal_position_arr[4].x, tempEnemyObj.y = goal_position_arr[4].y, tempBoxObj.y = tempEnemyObj.y - yPositionMargin;
-        this.addObject(tempEnemyObj), this.addObject(tempBoxObj);
+        tempEnemyObj.x = goal_position_arr[4].x, tempEnemyObj.y = goal_position_arr[4].y;
+        this.addObject(tempEnemyObj);
 
         var refreshItem = cc.MenuItemImage.create("sprites/menu_refresh.png","sprites/menu_refresh.png", this.onRefreshCallback, this);
         var imageMenu = cc.Menu.create(refreshItem);
@@ -244,10 +236,6 @@ var GameLayer = cc.Layer.extend({
         var layer = new GameScene();
         scene.addChild(layer);
         result_arr = [];
-
-		var ag = cc.AudioEngine.getInstance();
-		//ag.playMusic(bgm_sound, true);
-		ag.setMusicVolume(0.2);
 
         var transition = cc.TransitionFade.create(0.5,scene);
         director.replaceScene(transition);
@@ -351,8 +339,8 @@ var GameLayer = cc.Layer.extend({
                 shape: "circle",
                 sprite: this.birdSprite,
                 density: 22,
-                restitution: 0.8,
-                userData: new BodyUserData(GameObjectRoll.Bird, 10000)
+                restitution: 0.7,
+                userData: new BodyUserData(GameObjectRoll.Bird, 20000)
             });
 
             var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
