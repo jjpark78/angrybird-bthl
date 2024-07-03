@@ -340,7 +340,7 @@ var GameLayer = cc.Layer.extend({
                 sprite: this.birdSprite,
                 density: 22,
                 restitution: 0.7,
-                userData: new BodyUserData(GameObjectRoll.Bird, 20000)
+                userData: new BodyUserData(GameObjectRoll.Bird, 10000)
             });
 
             var vector = cc.pSub(this.birdStartPos, this.birdSprite.getPosition()),
