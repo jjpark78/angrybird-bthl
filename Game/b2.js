@@ -231,14 +231,12 @@ var b2 = (function () {
       body.sprite = desc.sprite;
       desc.sprite.body = body;
 
-      bodies.push(body);
-    },
-    simulate: function () {
-      world.Step(
-        1 / 45, // fixed time step
-        10, // velocity iterations
-        10
-      ); // position iterations
+            bodies.push(body);
+        },
+        simulate: function () {
+            world.Step(1 / 32, // fixed time step
+            10, // velocity iterations
+            10); // position iterations
 
       enableDebugDraw && world.DrawDebugData();
       var ag = cc.AudioEngine.getInstance();
@@ -252,27 +250,24 @@ var b2 = (function () {
         if (bodyData && bodyData.isDead) {
           world.DestroyBody(body);
 
-          if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
-            if (userScore == 0) {
-              ag.playEffect(fail_sound, false);
-              cc.Director.getInstance().replaceScene(
-                cc.TransitionFade.create(0.5, new RetryScene())
-              );
-            } else {
-              cc.Director.getInstance().replaceScene(
-                cc.TransitionFade.create(0.5, new ResultScene())
-              );
-            }
-          }
+                    if (bodyData.getObjectRoll() == GameObjectRoll.Bird) {
+                        if (userScore == 0) {
+                            ag.setEffectsVolume(0.2);
+                            ag.playEffect(fail_sound, false);
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new RetryScene()));
+                        } else {
+                            cc.Director.getInstance().replaceScene(cc.TransitionFade.create(0.5,new ResultScene()));
+                        }
+                    }
 
-          if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
-            ag.playEffect(effect_sound, false);
-            userScore++;
-            result_arr.push(bodyData.getScore());
-          }
-          body.sprite.runAction(cc.ScaleTo.create(0.5, 2.5));
-          body.sprite.runAction(cc.FadeOut.create(0.5));
-          body.SetUserData(null);
+					if (bodyData.getObjectRoll() == GameObjectRoll.Enemy) {
+                        ag.setEffectsVolume(0.2);
+						ag.playEffect(effect_sound, false);
+						userScore++;
+                        result_arr.push(bodyData.getScore());
+					}
+                    body.sprite.runAction(cc.FadeOut.create(0.3));
+                    body.SetUserData(null);
 
           continue;
         }

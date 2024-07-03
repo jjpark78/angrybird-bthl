@@ -1,3 +1,4 @@
+var language_code = "RU";
 (function () {
     var d = document;
     var c = {
@@ -13,10 +14,10 @@
     window.addEventListener('DOMContentLoaded', function () {
         const introImages = [
             "sprites/bg.png",
-            "intro/intro.svg",
-            "intro/intro_game1-13.svg",
-            "intro/intro_game1-14.svg",
-            "intro/intro_game1-15.svg"
+            `intro/${language_code}_intro_game1_1.svg`,
+            `intro/${language_code}_intro_game1_2.svg`,
+            `intro/${language_code}_intro_game1_3.svg`,
+            `intro/${language_code}_intro_game1_4.svg`,
         ];
 
         let currentImageIndex = 0, audioFlg = false, keyDownFlg = false;

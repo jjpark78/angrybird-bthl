@@ -8,17 +8,15 @@ var result_arr = [];
 var g_ressources = (function () {
   var retval = [],
     imgs = [
-      "intro01",
-      "intro2",
-      "intro3",
-      "intro4",
+      `${language_code}_intro1`,
+      `${language_code}_intro2`,
+      `${language_code}_intro3`,
+      `${language_code}_intro4`,
       "bg",
       "bg_finish",
       "platform",
       "bird",
       "poll",
-      "sling1",
-      "sling2",
       "sling3",
       "ground",
       "wood1",
@@ -31,7 +29,10 @@ var g_ressources = (function () {
       "goal03",
       "goal04",
       "goal05",
-      "retry",
+      `${language_code}_retry`,
+      `${language_code}_outro`,
+      `${language_code}_outro1`,
+      `${language_code}_outro2`,
     ],
     sounds = [bgm_sound, effect_sound, impact_sound];
 
